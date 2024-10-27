@@ -1,0 +1,127 @@
+/**TABLE OF CONTENTS
+1. Button CSS
+2. Text CSS
+3. Heading CSS
+1. Button CSS**/
+.ui.button.round {
+    border-radius: var(--radius-xs);
+}
+
+.ui.button.size-sm {
+    height: 72px;
+    padding-left: var(--space-lg);
+    padding-right: var(--space-1g);
+    font-size: 24px;
+}
+
+.ui.button.size-xs {
+    height: 40px;
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+}
+
+.ui.button.fill.bg_dark {
+    background-color: var(--bg_dark);
+}
+
+.ui.button.outline.white {
+    border: 1px solid var(--white);
+}
+
+.ui.button.gradient.teal_700_cyan_a700 {
+    background: linear-gradient(351deg, #09757b, #00a7d5);
+    color: var(--white);
+}
+
+.ui.button {
+    text-align: center;
+    display: flex;
+    cursor: pointer;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: var(--radius-xs);
+}
+
+/*  2. Text CSS*/
+.ui.text.size-main_text_p1_400 {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.ui.text {
+    color: var(--white);
+    font-family: Poppins;
+}
+
+/*3. Heading CSS
+*/
+.ui.heading.size-headings_h4_600 {
+    font-size: 38px;
+    font-weight: 600;
+    font-style: bold;
+
+    @media only screen and (max-width: 1050px) {
+        font-size: 36px;
+    }
+
+    @media only screen and (max-width: 550px) {
+        font-size: 34px;
+    }
+}
+
+.ui.heading.size-headings_h7_600 {
+    font-size: 16px;
+    font-weight: 600;
+    font-style: bold;
+}
+
+.ui.heading.size-headings_h1_600 {
+    letter-spacing: -0.9px;
+    font-size: 90px;
+    font-weight: 700;
+    font-style: bold;
+
+    @media only screen and (max-width: 1050px) {
+        font-size: 48px;
+    }
+}
+
+.ui.heading.size-headings_h6_600 {
+    font-size: 21px;
+    font-weight: 600;
+    font-style: bold;
+}
+
+.ui.heading.size-headings_h2_600 {
+    text-transform: capitalize;
+    font-size: 67px;
+    font-weight: 600;
+    font-style: bold;
+
+    @media only screen and (max-width: 1050px) {
+        font-size: 48px;
+    }
+}
+
+.ui.heading.size-headings_h5_600 {
+    font-size: 28px;
+    font-weight: 600;
+    font-style: bold;
+
+    @media only screen and (max-width: 1050px) {
+        font-size: 26px;
+    }
+
+    @media only screen and (max-width: 550px) {
+        font-size: 24px;
+    }
+}
+
+.ui.heading {
+    color: var(--white);
+    font-family: Titillium Web;
+}

@@ -136,7 +136,6 @@ def run_vulnerability_scans_and_pen_tests(urls):
                 'severity': 'High',
                 'recommendation': 'Enforce strong passwords and multi-factor authentication.'
             })
-        
         except Exception as e:
             results.append({
                 'url': url,
@@ -159,3 +158,12 @@ def run_vulnerability_scans_and_pen_tests(urls):
 
     return results
 
+"""  #cross site request forgery
+            cross_site_request_forgery_result = Cross_Site_Request_Forgery.scan_csrf(url)
+            results.append({
+                'url': url,
+                'vulnerability': 'Weak Password',
+                'result': cross_site_request_forgery_result,
+                'severity': 'High',
+                'recommendation': 'Enforce strong passwords and multi-factor authentication.'
+            }) """
