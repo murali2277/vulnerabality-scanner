@@ -27,7 +27,7 @@ service_description {
     }
 }
 
-vscan_content_text-container {
+.vscan_content_text-container {
     gap: var(--space-xs);
     display: flex;
     flex-direction: column;
@@ -557,7 +557,7 @@ header menu {
     line-height: 70px;
 }
 
-section_content--right {
+.section_content--right {
     width: 48%;
     display: flex;
     justify-content: center;
@@ -780,7 +780,7 @@ section_content--right {
     }
 }
 
-vscan_benefits_list-container {
+.vscan_benefits_list-container {
     display: flex;
     flex-direction: column;
     align-items: start;
