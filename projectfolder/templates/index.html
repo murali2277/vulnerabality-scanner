@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Vulnerability Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function scanUrl() {
+            const url = document.getElementById('url').value;
+            const response = await fetch('/scan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'url=' + encodeURIComponent(url)
+            });
+            const results = await response.json();
+            document.getElementById('results').innerHTML = `
+                <h2>Scan Results</h2>
+                ${Object.entries(results).map(([vuln, result]) => `
+                    <div>
+                        <strong>${vuln}:</strong> ${result}<br>
+                    </div>
+                `).join('')}
+            `;
+        }
+    </script>
+</head>
+<body>
+    <h1>Automated Vulnerability Assessment</h1>
+    <form onsubmit="event.preventDefault(); scanUrl();">
+        <label for="url">Enter URL to scan:</label>
+        <input type="url" id="url" name="url" required><br><br>
+        <button type="submit">Scan</button>
+    </form>
+    <div id="results"></div>
+</body>
+</html>
