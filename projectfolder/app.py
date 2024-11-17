@@ -1,14 +1,14 @@
 from flask import Flask, request, render_template, jsonify
 import requests
-
+import time
 app = Flask(__name__)
-
+a=0
 def perform_sql_injection_check(target_url):
     injection_payload = "'"
     try:
         response = requests.get(target_url + injection_payload)
         if "SQL syntax" in response.text or "sql" in response.text.lower():
-            return "SQL injection vulnerability detected!"
+            return "SQL injection vulnerability found!"
     except requests.RequestException as e:
         return f"Error during SQL Injection test: {e}"
     return "No SQL injection vulnerability detected."
@@ -18,32 +18,35 @@ def perform_xss_check(target_url):
     try:
         response = requests.get(target_url, params={"input": xss_payload})
         if xss_payload in response.text:
-            return "XSS vulnerability detected!"
+            return "XSS vulnerability found!"
     except requests.RequestException as e:
         return f"Error during XSS test: {e}"
     return "No XSS vulnerability detected."
 
+
 def perform_csrf_check(target_url):
-    csrf_token = ""
     try:
         response = requests.get(target_url)
-        if "csrf_token" in response.text:
+        if "csrf_token = " in response.text:
             csrf_token = response.text.split("csrf_token = ")[1].split(";")[0]
-        if csrf_token:
             payload = {"csrf_token": csrf_token}
             response = requests.post(target_url, data=payload)
             if "Invalid CSRF token" not in response.text:
-                return "CSRF vulnerability detected!"
+                return "CSRF vulnerability found!"
+        else:
+            return "No CSRF token found in the response."
     except requests.RequestException as e:
         return f"Error during CSRF test: {e}"
     return "No CSRF vulnerability detected."
+
+
 
 def perform_ssrf_check(target_url):
     ssrf_payload = "http://localhost"
     try:
         response = requests.get(target_url, params={"input": ssrf_payload})
         if "Error connecting" not in response.text:
-            return "SSRF vulnerability detected!"
+            return "SSRF vulnerability found!"
     except requests.RequestException as e:
         return f"Error during SSRF test: {e}"
     return "No SSRF vulnerability detected."
@@ -53,7 +56,7 @@ def perform_lfi_check(target_url):
     try:
         response = requests.get(target_url, params={"file": lfi_payload})
         if "root:" in response.text:
-            return "LFI vulnerability detected!"
+            return "LFI vulnerability found!"
     except requests.RequestException as e:
         return f"Error during LFI test: {e}"
     return "No LFI vulnerability detected."
@@ -63,7 +66,7 @@ def perform_rce_check(target_url):
     try:
         response = requests.get(target_url, params={"input": rce_payload})
         if "bin" in response.text:
-            return "RCE vulnerability detected!"
+            return "RCE vulnerability found!"
     except requests.RequestException as e:
         return f"Error during RCE test: {e}"
     return "No RCE vulnerability detected."
@@ -73,7 +76,7 @@ def perform_command_injection_check(target_url):
     try:
         response = requests.get(target_url, params={"cmd": cmd_payload})
         if "Vulnerable" in response.text:
-            return "Command Injection vulnerability detected!"
+            return "Command Injection vulnerability found!"
     except requests.RequestException as e:
         return f"Error during Command Injection test: {e}"
     return "No Command Injection vulnerability detected."
@@ -83,7 +86,7 @@ def perform_open_redirect_check(target_url):
     try:
         response = requests.get(target_url, params={"next": redirect_payload})
         if "example.com" in response.url:
-            return "Open Redirect vulnerability detected!"
+            return "Open Redirect vulnerability found!"
     except requests.RequestException as e:
         return f"Error during Open Redirect test: {e}"
     return "No Open Redirect vulnerability detected."
@@ -93,7 +96,7 @@ def perform_file_upload_check(target_url):
         files = {'file': ('test.txt', 'This is a test file')}
         response = requests.post(target_url, files=files)
         if response.status_code == 200 and "test.txt" in response.text:
-            return "File Upload vulnerability detected!"
+            return "File Upload vulnerability found!"
     except requests.RequestException as e:
         return f"Error during File Upload test: {e}"
     return "No File Upload vulnerability detected."
@@ -103,7 +106,7 @@ def perform_directory_traversal_check(target_url):
     try:
         response = requests.get(target_url, params={"file": traversal_payload})
         if "root:" in response.text:
-            return "Directory Traversal vulnerability detected!"
+            return "Directory Traversal vulnerability found!"
     except requests.RequestException as e:
         return f"Error during Directory Traversal test: {e}"
     return "No Directory Traversal vulnerability detected."
@@ -117,7 +120,7 @@ def perform_xxe_check(target_url):
     try:
         response = requests.post(target_url, data=xxe_payload, headers=headers)
         if "root:" in response.text:
-            return "XXE vulnerability detected!"
+            return "XXE vulnerability found!"
     except requests.RequestException as e:
         return f"Error during XXE test: {e}"
     return "No XXE vulnerability detected."
@@ -127,7 +130,7 @@ def perform_crlf_injection_check(target_url):
     try:
         response = requests.get(target_url + crlf_payload)
         if "Header-Test" in response.headers:
-            return "CRLF Injection vulnerability detected!"
+            return "CRLF Injection vulnerability found!"
     except requests.RequestException as e:
         return f"Error during CRLF Injection test: {e}"
     return "No CRLF Injection vulnerability detected."
@@ -137,7 +140,7 @@ def perform_http_response_splitting_check(target_url):
     try:
         response = requests.get(target_url + splitting_payload)
         if response.status_code == 200:
-            return "HTTP Response Splitting vulnerability detected!"
+            return "HTTP Response Splitting vulnerability found!"
     except requests.RequestException as e:
         return f"Error during HTTP Response Splitting test: {e}"
     return "No HTTP Response Splitting vulnerability detected."
@@ -146,7 +149,7 @@ def perform_clickjacking_check(target_url):
     try:
         response = requests.get(target_url)
         if "X-Frame-Options" not in response.headers:
-            return "Clickjacking vulnerability detected!"
+            return "Clickjacking vulnerability found!"
     except requests.RequestException as e:
         return f"Error during Clickjacking test: {e}"
     return "No Clickjacking vulnerability detected."
@@ -158,6 +161,7 @@ def index():
 @app.route('/scan', methods=['POST'])
 def scan():
     target_url = request.form['url']
+    start_time = time.time()  # Start timing
     results = {
         "SQL Injection": perform_sql_injection_check(target_url),
         "XSS": perform_xss_check(target_url),
@@ -174,7 +178,19 @@ def scan():
         "HTTP Response Splitting": perform_http_response_splitting_check(target_url),
         "Clickjacking": perform_clickjacking_check(target_url)
     }
-    return jsonify(results)
+   
+    
+    end_time = time.time()  # End timing
+    elapsed_time = round(end_time - start_time, 2)  # Calculate scanning time
+    
+    # Count detected vulnerabilities
+    detected_count = sum("detected" in result.lower() for result in results.values())
+    
+    return jsonify({
+        "results": results,
+        "elapsed_time": elapsed_time,
+        "detected_count": detected_count
+    })
 
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(debug=True)

@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!--  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -153,4 +153,182 @@
     <div id="results"></div>
 </body>
 </html>
- 
+  -->
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Automated Vulnerability Assessment</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <style>
+          /* General Styles */
+          body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              margin: 0;
+              padding: 0;
+              background: linear-gradient(to bottom, #f4f4f9, #e0e7ff);
+              color: #333;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 20px;
+              padding-bottom: 20px;
+          }
+          h1 {
+              text-align: center;
+              background-color: #2b5db6;
+              color: #fff;
+              width: 100%;
+              padding: 20px 0;
+              font-size: 2.5rem;
+              margin: 0;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+  
+          /* Form Styles */
+          form {
+              width: 100%;
+              max-width: 500px;
+              background: #fff;
+              padding: 20px;
+              border-radius: 15px;
+              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+              text-align: center;
+          }
+          label {
+              font-weight: bold;
+              font-size: 1.1rem;
+              display: block;
+              margin-bottom: 10px;
+              color: #2b5db6;
+          }
+          input[type="url"] {
+              width: 100%;
+              padding: 15px;
+              margin-bottom: 20px;
+              border: 1px solid #ccc;
+              border-radius: 8px;
+              font-size: 1rem;
+              transition: all 0.3s ease;
+              box-sizing: border-box;
+          }
+          input[type="url"]:focus {
+              outline: none;
+              border-color: #2b5db6;
+              box-shadow: 0 0 8px rgba(43, 93, 182, 0.3);
+          }
+          button {
+              width: 100%;
+              background-color: #2b5db6;
+              color: white;
+              font-size: 1.2rem;
+              border: none;
+              padding: 15px;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: background-color 0.3s ease, transform 0.2s ease;
+          }
+          button:hover {
+              background-color: #1a3e7b;
+              transform: scale(1.02);
+          }
+  
+          /* Results Section */
+          #results {
+              width: 100%;
+              max-width: 500px;
+              background: #fff;
+              padding: 20px;
+              border-radius: 15px;
+              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+              text-align: left;
+          }
+          #results h2 {
+              font-size: 1.8rem;
+              color: #2b5db6;
+              margin-top: 0;
+              text-align: center;
+          }
+         
+          #results div {
+              margin-bottom: 10px;
+              padding: 10px;
+              background: #f9f9f9;
+              border-radius: 8px;
+              border: 1px solid #ddd;
+          }
+          .vulnerable {
+              color: red;
+              font-weight: bold;
+              background-color: rgb(218, 91, 53);
+          }
+          .safe {
+              color: #333;
+          }
+  
+          /* Responsive Design */
+          @media (max-width: 768px) {
+              body {
+                  padding: 10px;
+              }
+              form, #results {
+                  padding: 15px;
+              }
+              button {
+                  font-size: 1rem;
+              }
+              h1 {
+                  font-size: 2rem;
+              }
+          }
+           </style>
+     <script>
+          async function scanUrl() {
+    const url = document.getElementById('url').value;
+    const response = await fetch('/scan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'url=' + encodeURIComponent(url)
+    });
+
+    const data = await response.json();
+
+    const resultsDiv = document.getElementById('results');
+    let detectedCount = 0; // Initialize detected count
+    const elapsedTime = data.elapsed_time;
+
+    resultsDiv.innerHTML = `
+        <h2>Scan Results</h2>
+        <div><strong>Scan Time:</strong> ${elapsedTime} seconds</div>
+        ${Object.entries(data.results).map(([vuln, result]) => {
+            const isVulnerable = result.toLowerCase().includes('found');
+            if (isVulnerable) detectedCount++; // Increment count if vulnerable
+            return `
+                <div class="${isVulnerable ? 'vulnerable' : 'safe'}">
+                    <strong>${vuln}:</strong> ${result}
+                </div>
+            `;
+        }).join('')}
+        <div><strong>Detected Vulnerabilities:</strong> ${detectedCount}</div>
+    `;
+}
+
+      </script>  
+   
+
+  </head>
+  <body>
+      <h1>Automated Vulnerability Assessment</h1>
+      <form onsubmit="event.preventDefault(); scanUrl();">
+          <label for="url">Enter URL to scan:</label>
+          <input type="url" id="url" name="url" placeholder="https://example.com" required>
+          <button type="submit">Scan</button>
+      </form>
+      <div id="results"></div>
+  </body>
+  </html>
+  
+  
