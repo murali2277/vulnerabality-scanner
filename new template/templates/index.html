@@ -21,8 +21,8 @@ body {
   color: #ffffff; /* White text */
   overflow-x: hidden;
 }
-
 /* Navigation Bar */
+ 
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -33,13 +33,17 @@ body {
 .navbar .logo {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #67eaff; /* Cyan color */
+  color: #67eaff; 
+  position: absolute;
+  left: 5%;
 }
 
 .navbar ul {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 80px;
+  
+  
 }
 
 .navbar ul li a {
@@ -526,16 +530,17 @@ body {
 
 /* Additional Pop-up Styles */
 /* Popup Modal Styles */
-.popup{
-  background: rgba(0, 0, 0, 0.6);
-  background:fixed;
-  display: none;
-  position: absolute;
-   top:  40%;
-  left: 40%;
-  
-  align-items: center;
-}
+.popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      align-items: center;
+      justify-content: center;
+    }
 .popup-content{
   height: 250px;
   width: 500px;
@@ -663,10 +668,19 @@ body {
   <div class="container">
     <!-- Navigation Bar -->
     <header class="navbar">
-      <div class="logo">VSCAN</div>
-      <nav>
+      <div class="logo"> VSCAN
+        </div>
+     <!--  <nav>
         <ul>
           <li><a href="#">Home</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Our Menu</a></li>
+        </ul>
+      </nav> -->
+      <nav class="navbar">
+        <ul class="nav-list">
+          <li><a href="#" class="active">Home</a></li>
           <li><a href="#">FAQ</a></li>
           <li><a href="#">Contact Us</a></li>
           <li><a href="#">Our Menu</a></li>
