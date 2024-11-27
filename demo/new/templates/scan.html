@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+</head>
+<body>
+    <div class="wave-bg"></div>
+        <div class="loading-overlay">
+            <div class="loader"></div>
+        </div>
+        <div class="toast" id="toast"></div>
+    <div class="container">
+       <!--  <header>
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <h1>Security Scanner</h1>
+            </div>
+            <p>Scan your website for common security vulnerabilities including SQL injection, XSS, CSRF, and more.</p>
+        </header>
+ -->
+
+ <nav class="nav-menu">
+    <a href="#" class="nav-link active">Dashboard</a>
+    <a href="/history" class="nav-link">History</a>
+    <a href="/setting" class="nav-link">Settings</a>
+    <a href="#" class="nav-link">Help</a>
+</nav>
+<header class="header">
+    <h1>VSCAN Pro</h1>
+    <p>Advanced Web Application Vulnerability Scanner with real-time analysis and comprehensive reporting</p>
+</header>
+        
+         <div class="container">
+            <form id="scanForm" class="scan-form">
+                <div class="form-group">
+                <!-- <div class="input-group">
+                    <input type="url" id="urlInput" placeholder="Enter website URL to scan (e.g., https://example.com)" required>
+                  
+                </div> -->
+                <label for="targetUrl">Target URL</label>
+                <input type="url" id="targetUrl" name="targetUrl" required 
+                       placeholder="https://example.com" pattern="https?://.+">
+            </div>
+                <div class="scan-options">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="sqlInjection" name="checks" value="sqlInjection" checked>
+                        <label for="sqlInjection">SQL Injection</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="xss" name="checks" value="xss" checked>
+                        <label for="xss">Cross-Site Scripting (XSS)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="csrf" name="checks" value="csrf" checked>
+                        <label for="csrf">CSRF Protection</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="fileUpload" name="checks" value="fileUpload" checked>
+                        <label for="fileUpload">File Upload</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="directoryTraversal" name="checks" value="directoryTraversal" checked>
+                        <label for="directoryTraversal">Directory Traversal</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="SSL/TLS Security" name="checks" value="SSL/TLS Security" checked>
+                        <label for="SSL/TLS Security">SSL/TLS Security</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="Security Headers" name="checks" value="Security Headers" checked>
+                        <label for="Security Headers">Security Headers</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="JWT Security" name="checks" value="JWT Security" checked>
+                        <label for="JWT Security">JWT Security</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="Open Redirects" name="checks" value="Open Redirects" checked>
+                        <label for="Open Redirects">Open Redirects</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="Rate Limiting" name="checks" value="Rate Limiting" checked>
+                        <label for="Rate Limiting">Rate Limiting</label>
+                    </div>
+                </div>
+                <button type="submit" class="button" id="scanButton">
+                   <!--  <svg class="scan-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12a10 10 0 1 0 20 0 10 10 0 1 0-20 0"/>
+                        <path d="M12 2v10"/>
+                    </svg>
+                    <span>Scan</span> -->
+                    Start Security Scan
+                </button>
+            </form>
+
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="loader"></div>
+            </div>
+<!-- 
+            <div id="scanProgress" class="progress-bar"></div> -->
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="scanProgress"></div>
+            </div>
+            <div id="toast" class="toast"></div>
+            <!-- <div id="results" class="results-container"></div> -->
+            <div class="results-container" id="resultsContainer"></div>
+    </div>
+    </div>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

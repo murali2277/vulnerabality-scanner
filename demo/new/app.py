@@ -15,7 +15,6 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 app = Flask(__name__)
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -31,17 +30,24 @@ class SecurityScanner:
     def _safe_request(self, url: str, method: str = 'GET', 
                      data: Optional[Dict] = None, 
                      headers: Optional[Dict] = None,
+                     files: Optional[Dict]=None,
+                     allow_redirects: Optional[Dict]=True,
                      timeout: int = 10) -> Optional[requests.Response]:
         try:
             response = self.session.request(
                 method, 
                 url, 
-                data=data, 
-                headers=headers, 
+                data=data,
+                files=files, 
+                headers=headers,
+                allow_redirects=allow_redirects,
                 timeout=timeout,
                 verify=False  # For testing only - enable SSL verification in production
             )
             return response
+        except requests.exceptions.Timeout:
+            print(f"Request timed out for URL: {url}")
+            return None
         except requests.exceptions.RequestException as e:
             logger.error(f"Request failed: {str(e)}")
             return None
@@ -465,7 +471,9 @@ def setting():
     return render_template('setting.html')
 @app.route('/scan', methods=['POST'])
 def scan():
-    target_url = request.json.get('url')
+    data = request.get_json()
+    target_url = data.get('url')
+    selected_checks = data.get('checks', [])
     
     if not target_url:
         return jsonify({'error': 'No target URL provided'}), 400
@@ -473,7 +481,7 @@ def scan():
     scanner = SecurityScanner(target_url)
     results = scanner.run_all_checks()
     
-    return jsonify([results]) 
+    return jsonify([results])
 
 
 if __name__ == '__main__':
