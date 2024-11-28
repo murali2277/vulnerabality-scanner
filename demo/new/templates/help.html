@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSCAN Pro - Help Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/help.css') }}">
+</head>
+<body>
+    <div class="wave-bg"></div>
+    <div class="container">
+        <nav class="nav-menu">
+            <a href="/scanhtml" class="nav-link">Dashboard</a>
+            <a href="/history" class="nav-link">History</a>
+            <a href="/setting" class="nav-link">Settings</a>
+            <a href="#" class="nav-link active">Help</a>
+        </nav>
+
+        <div class="help-container">
+            <div class="help-sidebar">
+                <div class="search-box">
+                    <input type="text" id="searchHelp" placeholder="Search help topics...">
+                </div>
+                <nav class="help-nav">
+                    <a href="#getting-started" class="help-nav-item active">Getting Started</a>
+                    <a href="#scan-types" class="help-nav-item">Scan Types</a>
+                    <a href="#interpreting-results" class="help-nav-item">Interpreting Results</a>
+                    <a href="#faq" class="help-nav-item">FAQ</a>
+                    <a href="#troubleshooting" class="help-nav-item">Troubleshooting</a>
+                    <a href="#best-practices" class="help-nav-item">Best Practices</a>
+                </nav>
+            </div>
+
+            <div class="help-content">
+                <section id="getting-started" class="help-section active">
+                    <h2>Getting Started with VSCAN Pro</h2>
+                    <div class="help-card">
+                        <h3>Quick Start Guide</h3>
+                        <ol>
+                            <li>Enter the target URL in the scan form</li>
+                            <li>Select the security checks you want to perform</li>
+                            <li>Click "Start Security Scan" to begin</li>
+                            <li>Review the results in the dashboard</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="scan-types" class="help-section">
+                    <h2>Available Scan Types</h2>
+                    <div class="help-grid">
+                        <div class="help-card">
+                            <h3>SQL Injection</h3>
+                            <p>Detects vulnerabilities that could allow attackers to manipulate your database.</p>
+                        </div>
+                        <div class="help-card">
+                            <h3>Cross-Site Scripting (XSS)</h3>
+                            <p>Identifies potential XSS vulnerabilities in your web application.</p>
+                        </div>
+                        <div class="help-card">
+                            <h3>CSRF Protection</h3>
+                            <p>Checks for proper Cross-Site Request Forgery protections.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="interpreting-results" class="help-section">
+                    <h2>Understanding Scan Results</h2>
+                    <div class="help-card">
+                        <h3>Severity Levels</h3>
+                        <div class="severity-list">
+                            <div class="severity-item critical">
+                                <span class="dot"></span>
+                                <strong>Critical:</strong> Immediate attention required
+                            </div>
+                            <div class="severity-item warning">
+                                <span class="dot"></span>
+                                <strong>Warning:</strong> Potential security concerns
+                            </div>
+                            <div class="severity-item safe">
+                                <span class="dot"></span>
+                                <strong>Safe:</strong> No issues detected
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="faq" class="help-section">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="help-card">
+                        <div class="faq-list">
+                            <details>
+                                <summary>How often should I run security scans?</summary>
+                                <p>We recommend running scans at least monthly, or after any significant changes to your application.</p>
+                            </details>
+                            <details>
+                                <summary>Are the scans invasive?</summary>
+                                <p>No, our scans are designed to be non-intrusive and safe for production environments.</p>
+                            </details>
+                            <details>
+                                <summary>Can I export scan results?</summary>
+                                <p>Yes, you can export results in PDF or CSV format from the scan history page.</p>
+                            </details>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="{{ url_for('static', filename='js/help.js') }}"></script>
+</body>
+</html>

@@ -469,6 +469,9 @@ def history():
 @app.route('/setting')
 def setting():
     return render_template('setting.html')
+@app.route('/help')
+def help():
+    return render_template('help.html')
 @app.route('/scan', methods=['POST'])
 def scan():
     data = request.get_json()
