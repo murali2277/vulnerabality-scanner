@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSCAN Pro - History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+</head>
+<body>
+    <div class="wave-bg"></div>
+    <div class="container">
+        <nav class="nav-menu">
+            <a href="/scanhtml" class="nav-link">Dashboard</a>
+            <a href="#" class="nav-link active">History</a>
+            <a href="/setting" class="nav-link">Settings</a>
+            <a href="#" class="nav-link">Help</a>
+        </nav>
+
+        <div id="historyContainer" class="history-container">
+            <!-- History items will be inserted here -->
+        </div>
+    </div>
+
+    <script type="module" src="{{ url_for('static', filename='js/history.js') }}"></script>
+</body>
+</html>
