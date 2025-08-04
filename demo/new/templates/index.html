@@ -26,6 +26,8 @@ body {
 
   color: #ffffff; /* White text */
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: #0d0d0d;
 }
 /* Navigation Bar */
  
@@ -34,22 +36,45 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(103, 234, 255, 0.1);
 }
 
 .navbar .logo {
   font-size: 1.8rem;
   font-weight: bold;
   color: #67eaff; 
-  position: absolute;
-  left: 5%;
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+.navbar nav {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
 }
 
 .navbar ul {
   list-style: none;
   display: flex;
-  gap: 80px;
-  
-  
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navbar ul li {
+  margin: 0;
 }
 
 .navbar ul li a {
@@ -57,11 +82,23 @@ body {
   color: #67eaff;
   font-size: 1rem;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: all 0.3s ease;
+  padding: 12px 20px;
+  border-radius: 6px;
+  display: block;
+  white-space: nowrap;
 }
 
 .navbar ul li a:hover {
-  color: #00c3ff; /* Lighter blue on hover */
+  color: #00c3ff;
+  background-color: rgba(103, 234, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.navbar ul li a.active {
+  color: #00c3ff;
+  background-color: rgba(103, 234, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(103, 234, 255, 0.3);
 }
 
 /* Main Layout */
@@ -70,7 +107,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 0;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* Content Section */
@@ -146,6 +186,37 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+    text-align: center;
+  }
+  
+  .navbar .logo {
+    margin-bottom: 10px;
+    margin-left: 0;
+  }
+  
+  .navbar nav {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .navbar ul {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .navbar ul li a {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+    min-width: 80px;
+    text-align: center;
+  }
+
   .content {
     flex-direction: column;
     text-align: center;
@@ -157,6 +228,22 @@ body {
 
   .text h1 {
     font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+  
+  .navbar ul {
+    gap: 10px;
+  }
+  
+  .navbar ul li a {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    min-width: 70px;
   }
 }
 /* Reset Styles */
@@ -678,21 +765,20 @@ body {
   <div class="container">
     <!-- Navigation Bar -->
     <header class="navbar">
-      <div class="logo"> VSCAN
-        </div>
-      <nav class="navbar">
+      <div class="logo">VSCAN</div>
+      <nav>
         <ul class="nav-list">
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Our Menu</a></li>
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact Us</a></li>
         </ul>
       </nav>
     </header>
     
 
     <!-- Main Content -->
-    <main class="content">
+    <main class="content" id="home">
       <!-- Text Section -->
       <div class="text">
         <h1>
@@ -716,7 +802,7 @@ body {
     </main>
   </div>
 
-  <div class="about-container">
+  <div class="about-container" id="about">
     <!-- Content Section -->
     <section class="about-section">
       <!-- Image Section -->
@@ -743,7 +829,7 @@ body {
     </section>
   </div>
 
-  <div class="service-container">
+  <div class="service-container" id="services">
     <!-- Header Section -->
     <section class="service-header">
       <h2 class="service-title">
@@ -806,7 +892,7 @@ body {
   </section>
 
 
-  <footer class="footer">
+  <footer class="footer" id="contact">
     <div class="footer-container">
       <div class="footer-section brand">
         <h1>VSCAN</h1>
@@ -840,6 +926,59 @@ body {
 
 
   <script>
+   // Navigation functionality
+   document.addEventListener('DOMContentLoaded', function() {
+     // Get all navigation links
+     const navLinks = document.querySelectorAll('.nav-list a');
+     
+     // Add click event listeners to all nav links
+     navLinks.forEach(link => {
+       link.addEventListener('click', function(e) {
+         e.preventDefault();
+         
+         // Remove active class from all links
+         navLinks.forEach(l => l.classList.remove('active'));
+         
+         // Add active class to clicked link
+         this.classList.add('active');
+         
+         // Get the target section
+         const targetId = this.getAttribute('href').substring(1);
+         const targetSection = document.getElementById(targetId);
+         
+         // Smooth scroll to target section
+         if (targetSection) {
+           targetSection.scrollIntoView({
+             behavior: 'smooth',
+             block: 'start'
+           });
+         }
+       });
+     });
+     
+     // Update active link based on scroll position
+     window.addEventListener('scroll', function() {
+       const sections = document.querySelectorAll('main, .about-container, .service-container, .footer');
+       const navLinks = document.querySelectorAll('.nav-list a');
+       
+       let current = '';
+       sections.forEach(section => {
+         const sectionTop = section.offsetTop;
+         const sectionHeight = section.clientHeight;
+         if (window.pageYOffset >= (sectionTop - 200)) {
+           current = section.getAttribute('id') || '';
+         }
+       });
+       
+       navLinks.forEach(link => {
+         link.classList.remove('active');
+         if (link.getAttribute('href') === '#' + current) {
+           link.classList.add('active');
+         }
+       });
+     });
+   });
+
    document.querySelector(".button").addEventListener("click", function () {
   document.querySelector(".popup").style.display = "flex";
 });
